@@ -4,6 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.br.buscacep.SearchCepActivity">
+    tools:context="com.br.buscacep.SearchCepActivity"
+    android:weightSum="1">
 
+    <TextView
+        android:id="@+id/textViewCep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.31"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.31"
+        android:text="Button" />
 </LinearLayout>

@@ -26,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SearchCepActivity.class);
-                startActivity(intent);
+                if(textCEP.getText().toString().length() > 0) {
+                    Intent intent = new Intent(MainActivity.this, SearchCepActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
