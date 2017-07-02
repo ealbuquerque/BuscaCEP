@@ -2,7 +2,6 @@ package com.br.buscacep.model;
 
 import android.database.Cursor;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -82,25 +81,12 @@ public class Address {
         this.state = state;
     }
 
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-
-        try {
-            json.put("id", this.getId());
-            json.put("cep", this.getCep());
-            json.put("street", this.getStreet());
-            json.put("neighborhood", this.getNeighborhood());
-            json.put("city", this.getCity());
-            json.put("state", this.getState());
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-
-        return json;
-    }
-
     @Override
     public String toString() {
-        return toJson().toString();
+        return "CEP: " + this.getCep() + "\n"
+                + "Logradouro: " + this.getStreet() + "\n"
+                + "Bairro: " + this.getNeighborhood() + "\n"
+                + "Cidade: " + this.getCity() + "\n"
+                + "Estado: " + this.getState();
     }
 }

@@ -17,8 +17,6 @@ public class SearchCepActivity extends AppCompatActivity {
         setContentView(R.layout.search_cep_activity);
 
         mTvResult = (TextView) findViewById(R.id.textViewCep);
-
-        Bundle args = getIntent().getExtras();
-        mTvResult.setText(args.getString("address"));
+        mTvResult.setText(getIntent().getExtras().getString("address"));
     }
 }

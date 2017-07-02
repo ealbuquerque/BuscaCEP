@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                             addressDAO.insert(address);
                             goSearchCepResult(address);
                         } catch (Exception e) {
-                            ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Por favor tente, novamente.");
+                            ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Verifique o CEP digitado e tente novamente.");
                             Log.d("onResponse response", response.toString());
                             e.printStackTrace();
                         } finally {
