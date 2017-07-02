@@ -11,13 +11,6 @@ public class DatabaseConnection {
     static private SQLiteDatabase connection = null;
     static private String database = "";
     static private Context context;
-    static private String table = "create table if not exists address ("
-            + "id integer not null primary key autoincrement,"
-            + "cep varchar(100), "
-            + "street varchar(100), "
-            + "neighborhood varchar(100), "
-            + "city varchar(100), "
-            + "state varchar(100);";
 
     public static void setConfig(String db, Context c) {
         database = db;
@@ -25,6 +18,14 @@ public class DatabaseConnection {
     }
 
     public static SQLiteDatabase getConnection() {
+        String table = "create table if not exists address (";
+        table += "id integer not null primary key autoincrement,";
+        table += "cep varchar(9),";
+        table += "street varchar(100), ";
+        table += "neighborhood varchar(100),";
+        table += "city varchar(100),";
+        table += "state varchar(100));";
+
         if (connection == null) {
             try {
                 connection = context.openOrCreateDatabase(database, 0, null);

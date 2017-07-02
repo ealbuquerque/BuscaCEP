@@ -19,6 +19,6 @@ public class SearchCepActivity extends AppCompatActivity {
         mTvResult = (TextView) findViewById(R.id.textViewCep);
 
         Bundle args = getIntent().getExtras();
-        mTvResult.setText(args.getString("street"));
+        mTvResult.setText(args.getString("address"));
     }
 }

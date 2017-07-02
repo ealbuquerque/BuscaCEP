@@ -7,6 +7,14 @@
     android:weightSum="1"
     tools:context="com.br.buscacep.SearchCepActivity">
 
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
     <TextView
         android:id="@+id/textViewCep"
         android:layout_width="match_parent"

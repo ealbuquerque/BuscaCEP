@@ -2,7 +2,6 @@ package com.br.buscacep;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +17,9 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.br.buscacep.db.AddressDAO;
+import com.br.buscacep.db.DatabaseConnection;
+import com.br.buscacep.model.Address;
 import com.br.buscacep.util.CustomMasks;
 import com.br.buscacep.util.LoadingUtil;
 import com.br.buscacep.util.ToastUtil;
@@ -25,6 +27,7 @@ import com.br.buscacep.util.ToastUtil;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+    private AddressDAO addressDAO;
     private EditText textCEP;
     private Button buttonSearch;
     private Button buttonHistory;
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (length < 9) {
                     ToastUtil.show(MainActivity.this, "CEP Inválido");
                 } else {
-                    doRequest(textCEP.getText().toString());
+                    getAddress(textCEP.getText().toString());
                 }
             }
         });
@@ -59,6 +62,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, HistoryActivity.class));
             }
         });
+
+        DatabaseConnection.setConfig("addressdb", getApplicationContext());
+        addressDAO = new AddressDAO();
+    }
+
+    private void goSearchCepResult(Address address) {
+        Intent intent = new Intent(MainActivity.this, SearchCepActivity.class);
+
+        Bundle params = new Bundle();
+        params.putString("address", address.toString());
+        intent.putExtras(params);
+
+        startActivityForResult(intent, 0);
+    }
+
+    private void getAddress(String cep) {
+        addressDAO.loadDB();
+        Address address = addressDAO.getByCep(cep);
+        if (address != null) {
+            Log.d("peguei da base", cep);
+            goSearchCepResult(address);
+        } else {
+            Log.d("fiz request", cep);
+            doRequest(cep);
+        }
     }
 
     private void doRequest(String cep) {
@@ -73,18 +101,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Intent intent = new Intent(MainActivity.this, SearchCepActivity.class);
-
-                            // pegar todos parâmetros
-                            Bundle params = new Bundle();
-                            params.putString("cep", response.getString("cep"));
-                            params.putString("street", response.getString("logradouro"));
-                            params.putString("neighborhood", response.getString("bairro"));
-                            params.putString("city", response.getString("localidade"));
-                            params.putString("state", response.getString("uf"));
-                            intent.putExtras(params);
-
-                            startActivityForResult(intent, 0);
+                            Address address = new Address(response);
+                            addressDAO.insert(address);
+                            goSearchCepResult(address);
                         } catch (Exception e) {
                             ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Por favor tente, novamente.");
                             Log.d("onResponse response", response.toString());
