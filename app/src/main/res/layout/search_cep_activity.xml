@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.31"
-        android:text="TextView" />
+        android:lineSpacingExtra="8sp"
+        android:textSize="14sp"
+        android:typeface="serif" />
 
 </LinearLayout>

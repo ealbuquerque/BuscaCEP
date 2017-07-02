@@ -2,7 +2,6 @@ package com.br.buscacep;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                             startActivityForResult(intent, 0);
                         } catch (Exception e) {
-                            ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Por favor tente, novamente.");
+                            ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Verifique o CEP digitado e tente novamente.");
                             Log.d("onResponse response", response.toString());
                             e.printStackTrace();
                         } finally {
