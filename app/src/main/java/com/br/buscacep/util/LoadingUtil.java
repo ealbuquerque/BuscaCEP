@@ -1,8 +1,7 @@
 package com.br.buscacep.util;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.os.Bundle;
+import android.content.Context;
 import android.support.v4.app.DialogFragment;
 
 /**
@@ -10,14 +9,27 @@ import android.support.v4.app.DialogFragment;
  */
 
 public class LoadingUtil extends DialogFragment {
-    Dialog loading = null;
+    private static ProgressDialog dialog;
 
-    @Override
-    public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        loading = new ProgressDialog(getActivity());
-        loading.setTitle("Por favor, aguarde...");
-        loading.setCanceledOnTouchOutside(false);
-        loading.setCancelable(false);
-        return loading;
+    public static void show(Context context) {
+        show(context, null, null);
+    }
+
+    public static void show(Context context, String title) {
+        show(context, title, null);
+    }
+
+    public static void show(Context context, String title, String message) {
+        dialog = new ProgressDialog(context);
+        dialog.setMessage(title != null ? title : "Carregando...");
+        dialog.setTitle(message != null ? message : "Por favor, aguarde.");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    public static void hide() {
+        dialog.dismiss();
     }
 }

@@ -67,10 +67,7 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = new RequestQueue(cache, network);
         queue.start();
 
-        FragmentManager fm = getSupportFragmentManager();
-        LoadingUtil loading = new LoadingUtil();
-        loading.show(fm, "some_tag");
-
+        LoadingUtil.show(MainActivity.this);
         JsonObjectRequest request = new JsonObjectRequest("https://viacep.com.br/ws/" + cep + "/json/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -85,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                             params.putString("neighborhood", response.getString("bairro"));
                             params.putString("city", response.getString("localidade"));
                             params.putString("state", response.getString("uf"));
-                            params.putString("city", response.getString("localidade"));
                             intent.putExtras(params);
 
                             startActivityForResult(intent, 0);
@@ -93,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                             ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Por favor tente, novamente.");
                             Log.d("onResponse response", response.toString());
                             e.printStackTrace();
+                        } finally {
+                            LoadingUtil.hide();
                         }
                     }
                 },
@@ -101,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Por favor tente, novamente.");
                         Log.d("onErrorResponse error", error.getMessage());
+                        LoadingUtil.hide();
                     }
                 });
         queue.add(request);
