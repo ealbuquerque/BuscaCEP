@@ -18,7 +18,7 @@ public class AddressDAO {
 
     public AddressDAO() {
         addressList = new ArrayList<Address>();
-        position = 0;
+        reset();
     }
 
     public void loadDB() {
@@ -94,6 +94,16 @@ public class AddressDAO {
         }
     }
 
+    public void deleteAll() {
+        try {
+            SQLiteDatabase conn = DatabaseConnection.getConnection();
+            String query = "delete from address;";
+            conn.execSQL(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Address next() {
         Address address = null;
         if (position < addressList.size()) {
@@ -112,7 +122,8 @@ public class AddressDAO {
     }
 
     public void clear() {
-        position = 0;
         addressList.clear();
+        deleteAll();
+        reset();
     }
 }

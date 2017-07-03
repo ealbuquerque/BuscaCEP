@@ -59,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
         buttonHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+                if (addressDAO.size() > 0) {
+                    ToastUtil.show(MainActivity.this, "Não há nenhum CEP no histórico.");
+                } else {
+                    startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+                }
             }
         });
 
