@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addressDAO = new AddressDAO();
 
         textCEP = (EditText) findViewById(R.id.editTextCEP);
         textCEP.addTextChangedListener(CustomMasks.insert(CustomMasks.CEP_MASK, textCEP));
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseConnection.setConfig("addressdb", getApplicationContext());
-        addressDAO = new AddressDAO();
     }
 
     private void goSearchCepResult(Address address) {

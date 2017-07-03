@@ -69,6 +69,28 @@ public class AddressDAO {
         return null;
     }
 
+        public List<Address> getAllAddresses (){
+            List<Address> retorno = new ArrayList<>();
+            try{
+                SQLiteDatabase conn = DatabaseConnection.getConnection();
+                String query = "select * from address";
+                Cursor cursor = conn.rawQuery(query, null);
+
+                retorno = new ArrayList<>();
+                if (cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast()) {
+                        Address address = new Address(cursor);
+                        retorno.add(address);
+                        cursor.moveToNext();
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return retorno;
+        }
+
+
     public void update(Address address) {
         try {
             SQLiteDatabase conn = DatabaseConnection.getConnection();
