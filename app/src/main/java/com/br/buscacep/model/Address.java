@@ -33,6 +33,10 @@ public class Address {
         this.setState(result.getString(result.getColumnIndex("state")));
     }
 
+    public Address (){
+
+    }
+
     public int getId() {
         return id;
     }

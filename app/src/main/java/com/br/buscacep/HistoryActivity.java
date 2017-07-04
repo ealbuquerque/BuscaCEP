@@ -1,6 +1,7 @@
 package com.br.buscacep;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseBooleanArray;
@@ -58,8 +59,15 @@ public class HistoryActivity extends AppCompatActivity {
                 // Capture total checked items
                 final int checkedCount = listView.getCheckedItemCount();
                 // Set the CAB title according to total checked items
-                mode.setTitle(checkedCount + " Selected");
+                mode.setTitle(checkedCount + (checkedCount > 1 ? " selecionados" : " selecionado"));
                 // Calls toggleSelection method from ListViewAdapter Class
+
+                if (checked){
+                  listView.getChildAt(position).setBackgroundColor(Color.argb(255, 220, 220,220));
+                }else{
+                    listView.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+                }
+
                 listviewadapter.toggleSelection(position);
             }
 
@@ -77,6 +85,7 @@ public class HistoryActivity extends AppCompatActivity {
                                         .getItem(selected.keyAt(i));
                                 // Remove selected items following the ids
                                 listviewadapter.remove(selecteditem);
+                                AddressDAO.delete(selecteditem);
                             }
                         }
                         // Close CAB
@@ -110,9 +119,6 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         addresses = AddressDAO.getAllAddresses();
-//        listviewadapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, addresses);
-//        listView.setAdapter(listviewadapter);
-//        listviewadapter.notifyDataSetChanged();
     }
 
     private void goSearchCepResult(Address address) {

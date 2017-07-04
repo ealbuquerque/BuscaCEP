@@ -34,7 +34,7 @@ public class ListViewAdapter extends ArrayAdapter<Address> {
         notifyDataSetChanged();
     }
 
-    public List<Address> getWorldPopulation() {
+    public List<Address> getAddressList() {
         return addressList;
     }
 
