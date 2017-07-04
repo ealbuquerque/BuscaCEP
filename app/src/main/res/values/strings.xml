@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Busca CEP</string>
+    <string name="delete">Apagar</string>
 </resources>
