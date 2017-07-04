@@ -27,7 +27,6 @@ import com.br.buscacep.util.ToastUtil;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
-    private AddressDAO addressDAO;
     private EditText textCEP;
     private Button buttonSearch;
     private Button buttonHistory;
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addressDAO = new AddressDAO();
 
         textCEP = (EditText) findViewById(R.id.editTextCEP);
         textCEP.addTextChangedListener(CustomMasks.insert(CustomMasks.CEP_MASK, textCEP));
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         buttonHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addressDAO.size() > 0) {
+                if (AddressDAO.size() == 0) {
                     ToastUtil.show(MainActivity.this, "Não há nenhum CEP no histórico.");
                 } else {
                     startActivity(new Intent(MainActivity.this, HistoryActivity.class));
@@ -82,13 +80,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAddress(String cep) {
-        addressDAO.loadDB();
-        Address address = addressDAO.getByCep(cep);
+        Address address = AddressDAO.getByCep(cep);
         if (address != null) {
-            Log.d("peguei da base", cep);
+            Log.d(cep, "peguei da base");
             goSearchCepResult(address);
         } else {
-            Log.d("fiz request", cep);
+            Log.d(cep, "fiz request");
             doRequest(cep);
         }
     }
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             Address address = new Address(response);
-                            addressDAO.insert(address);
+                            AddressDAO.insert(address);
                             goSearchCepResult(address);
                         } catch (Exception e) {
                             ToastUtil.show(MainActivity.this, "Ops... Ocorreu um erro. Verifique o CEP digitado e tente novamente.");
